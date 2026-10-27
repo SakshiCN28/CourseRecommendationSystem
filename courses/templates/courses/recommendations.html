@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Recommendations</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fb;
+            color: #243047;
+        }
+
+        header {
+            background-color: #243b67;
+            color: white;
+            padding: 22px 8%;
+        }
+
+        header h1 {
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #dce6ff;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 40px auto;
+        }
+
+        .form-card,
+        .course-card,
+        .empty-message {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(30, 50, 90, 0.08);
+        }
+
+        .form-card h2,
+        .results-title {
+            color: #243b67;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd4e2;
+            border-radius: 7px;
+            background-color: white;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 13px;
+            background-color: #314f9b;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #243b67;
+        }
+
+        .category {
+            display: inline-block;
+            background-color: #e8edff;
+            color: #314f9b;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .course-card h3 {
+            margin-bottom: 12px;
+        }
+
+        .course-card p {
+            color: #596579;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #314f9b;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #243b67;
+            color: white;
+            padding: 20px;
+            margin-top: 45px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Course Recommendation System</h1>
+        <p>Find courses that match your interests and career goals.</p>
+    </header>
+
+    <main class="container">
+
+        <section class="form-card">
+            <h2>Find Your Recommended Courses</h2>
+
+            <p>Select your preferences below to discover suitable courses.</p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <label for="interest">Your Interest</label>
+                <select name="interest" id="interest">
+                    <option value="">All Interests</option>
+                    <option value="Programming">Programming</option>
+                    <option value="Web Development">Web Development</option>
+                </select>
+
+                <label for="level">Your Skill Level</label>
+                <select name="level" id="level">
+                    <option value="">Any Level</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                </select>
+
+                <label for="career_goal">Your Career Goal</label>
+                <select name="career_goal" id="career_goal">
+                    <option value="">Any Career Field</option>
+                    <option value="Software Developer">Software Developer</option>
+                    <option value="Web Developer">Web Developer</option>
+                </select>
+
+                <button type="submit">Recommend Courses</button>
+            </form>
+        </section>
+
+        {% if request.method == 'POST' %}
+
+            <h2 class="results-title">Your Recommended Courses</h2>
+
+            {% if recommended_courses %}
+                {% for course in recommended_courses %}
+                    <div class="course-card">
+
+                        <span class="category">
+                            {{ course.category }}
+                        </span>
+
+                        <h3>{{ course.course_name }}</h3>
+
+                        <p>
+                            <strong>Level:</strong> {{ course.level }}
+                        </p>
+
+                        <p>
+                            <strong>Duration:</strong> {{ course.duration }}
+                        </p>
+
+                        <p>
+                            <strong>Skills:</strong> {{ course.skills }}
+                        </p>
+
+                        <p>{{ course.description }}</p>
+
+                        <p>
+                            <strong>Career Field:</strong> {{ course.career_field }}
+                        </p>
+
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-message">
+                    <h3>No matching courses found.</h3>
+                    <p>Try changing your selections and searching again.</p>
+                </div>
+            {% endif %}
+
+        {% endif %}
+
+        <a class="back-link" href="{% url 'home' %}">← Back to Home</a>
+
+    </main>
+
+    <footer>
+        <p>Course Recommendation Knowledge System</p>
+    </footer>
+
+</body>
+</html>

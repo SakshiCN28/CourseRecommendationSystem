@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ course.course_name }} - Course Details</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #243047;
+        }
+
+        header {
+            background: #243b67;
+            color: white;
+            padding: 25px 8%;
+        }
+
+        header h1 {
+            margin-bottom: 8px;
+        }
+
+        .container {
+            width: 85%;
+            max-width: 850px;
+            margin: 45px auto;
+        }
+
+        .course-card {
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 4px 18px rgba(30, 50, 90, 0.09);
+        }
+
+        .category {
+            display: inline-block;
+            background: #e8edff;
+            color: #314f9b;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        h2 {
+            color: #243b67;
+            font-size: 29px;
+            margin-bottom: 22px;
+        }
+
+        .detail {
+            padding: 15px 0;
+            border-bottom: 1px solid #e7ebf3;
+            line-height: 1.7;
+        }
+
+        .detail strong {
+            color: #243b67;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 20px;
+            background: #314f9b;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+
+        .back-link:hover {
+            background: #243b67;
+        }
+
+        footer {
+            text-align: center;
+            background: #243b67;
+            color: white;
+            padding: 18px;
+            margin-top: 55px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 92%;
+            }
+
+            .course-card {
+                padding: 23px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Course Recommendation System</h1>
+        <p>Explore course details and learning opportunities.</p>
+    </header>
+
+    <main class="container">
+
+        <div class="course-card">
+
+            <span class="category">{{ course.category }}</span>
+
+            <h2>{{ course.course_name }}</h2>
+
+            <div class="detail">
+                <strong>Course Level</strong>
+                {{ course.level }}
+            </div>
+
+            <div class="detail">
+                <strong>Duration</strong>
+                {{ course.duration }}
+            </div>
+
+            <div class="detail">
+                <strong>Skills You Will Learn</strong>
+                {{ course.skills }}
+            </div>
+
+            <div class="detail">
+                <strong>Course Description</strong>
+                {{ course.description }}
+            </div>
+
+            <div class="detail">
+                <strong>Career Opportunities</strong>
+                {{ course.career_field }}
+            </div>
+
+            <a href="{% url 'home' %}" class="back-link">
+                ← Back to Home
+            </a>
+
+        </div>
+
+    </main>
+
+    <footer>
+        Course Recommendation Knowledge System | Built with Python and Django
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Recommendation Knowledge System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fb;
+            color: #243047;
+        }
+
+        header {
+            background-color: #243b67;
+            color: white;
+            padding: 22px 8%;
+        }
+
+        header h1 {
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #dce6ff;
+            font-size: 14px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 55px 20px;
+            background: linear-gradient(135deg, #e2eaff, #f7eaff);
+        }
+
+        .hero h2 {
+            font-size: 34px;
+            margin-bottom: 15px;
+            color: #243b67;
+        }
+
+        .hero p {
+            font-size: 16px;
+            line-height: 1.7;
+            max-width: 650px;
+            margin: 0 auto;
+            color: #526079;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 13px 22px;
+            background-color: #314f9b;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background-color: #243b67;
+        }
+
+        .search-button {
+            background-color: #6b4ca5;
+        }
+
+        .search-button:hover {
+            background-color: #50377f;
+        }
+
+        .container {
+            width: 84%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        .section-title {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .section-description {
+            color: #647087;
+            margin-bottom: 25px;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 22px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 12px;
+            padding: 23px;
+            box-shadow: 0 4px 15px rgba(30, 50, 90, 0.08);
+            border: 1px solid #e7ebf3;
+            transition: transform 0.2s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .category {
+            display: inline-block;
+            background-color: #e8edff;
+            color: #314f9b;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .course-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .course-card p {
+            color: #596579;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .course-card strong {
+            color: #243b67;
+        }
+
+        .details-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 11px 16px;
+            background-color: #314f9b;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .details-link:hover {
+            background-color: #243b67;
+        }
+
+        .empty-message {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            color: #596579;
+            line-height: 1.7;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #243b67;
+            color: white;
+            padding: 20px;
+            margin-top: 55px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 22px;
+            }
+
+            .hero h2 {
+                font-size: 27px;
+            }
+
+            .container {
+                width: 90%;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .button {
+                width: 220px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Course Recommendation System</h1>
+        <p>Discover courses that match your interests and career goals.</p>
+    </header>
+
+    <section class="hero">
+        <h2>Find the Right Course for You</h2>
+
+        <p>
+            Explore learning opportunities, develop new skills, and take
+            a step towards your dream career with our Course Recommendation
+            Knowledge System.
+        </p>
+
+        <div class="button-group">
+            <a href="{% url 'recommend_courses' %}" class="button">
+                Find My Course
+            </a>
+
+            <a href="{% url 'search_courses' %}" class="button search-button">
+                Search Courses
+            </a>
+        </div>
+    </section>
+
+    <main class="container">
+        <h2 class="section-title">Available Courses</h2>
+
+        <p class="section-description">
+            Explore the courses currently available in our database.
+        </p>
+
+        {% if courses %}
+            <div class="course-grid">
+
+                {% for course in courses %}
+                    <div class="course-card">
+
+                        <span class="category">
+                            {{ course.category }}
+                        </span>
+
+                        <h3>{{ course.course_name }}</h3>
+
+                        <p>
+                            <strong>Level:</strong> {{ course.level }}
+                        </p>
+
+                        <p>
+                            <strong>Duration:</strong> {{ course.duration }}
+                        </p>
+
+                        <p>
+                            <strong>Skills:</strong> {{ course.skills }}
+                        </p>
+
+                        <p>{{ course.description }}</p>
+
+                        <p>
+                            <strong>Career Field:</strong> {{ course.career_field }}
+                        </p>
+
+                        <a
+                            href="{% url 'course_detail' course.id %}"
+                            class="details-link"
+                        >
+                            View Course Details
+                        </a>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-message">
+                <h3>No courses available yet.</h3>
+                <p>Please add courses through the administration panel.</p>
+            </div>
+
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>Course Recommendation Knowledge System | Built with Python and Django</p>
+    </footer>
+
+</body>
+</html>
